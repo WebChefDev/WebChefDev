@@ -16,7 +16,7 @@ a {
 
 }
 .bg {
-  background-image: url("windows.jpg");
+  background-image: url("images/windows.jpg");
   height: 100%;
   background-position: sticky;
   background-repeat: no-repeat;
@@ -147,7 +147,7 @@ a {
   position: absolute;
   top: 20px;
   display: flex;
-  flex-direction: column;
+flex-wrap: wrap;
   gap: 20px;
   right: 20px;
 }
@@ -162,11 +162,18 @@ a {
 }
 
 .icon img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 5px;
 }
 
+.icon2 {
+  width: 60px;
+  height: 60px;
+    font-family: Arial, sans-serif;
+  color: white;
+  text-shadow: 2px 2px #4a4a4a;
+}
 .icon span {
   margin-top: -5px;
 }
