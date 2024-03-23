@@ -155,6 +155,7 @@ flex-wrap: wrap;
   color: white;
   text-shadow: 2px 2px #4a4a4a;
   cursor: pointer;
+  text-align: center;
 }
 
 .icon img {
