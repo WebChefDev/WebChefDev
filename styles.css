@@ -25,11 +25,6 @@ a {
 
 
 
-
-
-
-
-
 /* Navigation Bar Styles */
 
 .windows-bar {
@@ -106,7 +101,7 @@ a {
 .grid-item.top {
   grid-row: 1;
   grid-column: 1 / span 2;
-  background: linear-gradient(to bottom, #2B62DB, #0B3765); /* Blue gradient */
+  background: linear-gradient(to bottom, #2B62DB, #0B3765); 
   color: white; 
   margin-top: -11px; 
   margin-left: -11px; 
@@ -128,7 +123,7 @@ a {
 .grid-item.bottom {
   grid-row: 3;
   grid-column: 1 / span 2;
-  background: linear-gradient(to bottom, #2B62DB, #0B3765); /* Blue gradient */
+  background: linear-gradient(to bottom, #2B62DB, #0B3765); 
   color: white;
   margin: -11px; 
   text-align: end;
