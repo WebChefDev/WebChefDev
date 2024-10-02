@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Based or Not Based</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      .container {
+        text-align: center;
+        padding: 20px;
+      }
+      input {
+        font-size: 24px;
+        padding: 10px;
+        width: 300px;
+        margin-bottom: 20px;
+      }
+      .result {
+        font-size: 36px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Are You Based or Not?</h1>
+      <input type="text" id="handle" placeholder="Enter your @ handle" />
+      <button onclick="checkBased()">Check</button>
+      <div class="result" id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+      function checkBased() {
+        const handle = document.getElementById("handle").value;
+        const resultDiv = document.getElementById("result");
+
+        // Possible outcomes
+        const outcomes = [
+          { text: `🎉 ${handle} is BASED! 🎉`, based: true },
+          { text: `😔 Outlook Not So Good 😔`, based: false },
+          { text: `🔄 Try Again Later 🔄`, based: false },
+          { text: `🤔 It Is Unclear 🤔`, based: false },
+        ];
+
+        const randomOutcome =
+          outcomes[Math.floor(Math.random() * outcomes.length)];
+
+        resultDiv.innerHTML = randomOutcome.text;
+        resultDiv.style.color = randomOutcome.based ? "green" : "red";
+
+        if (randomOutcome.based) {
+          showConfetti();
+        }
+      }
+
+      function showConfetti() {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+    </script>
+  </body>
+</html>
