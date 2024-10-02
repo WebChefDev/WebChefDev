@@ -1,6 +1,5 @@
-
-
-body, html {
+body,
+html {
   height: 100%;
   margin: 0;
 }
@@ -11,8 +10,6 @@ a {
 
 .emoji {
   font-size: 2rem;
-
-
 }
 .bg {
   background-image: url("images/windows.jpg");
@@ -23,8 +20,6 @@ a {
   position: relative;
 }
 
-
-
 /* Navigation Bar Styles */
 
 .windows-bar {
@@ -33,65 +28,58 @@ a {
   left: 0;
   width: 100%;
   height: 45px;
-  background:  linear-gradient(to bottom, #2B62DB, #0B3765);; 
+  background: linear-gradient(to bottom, #2b62db, #0b3765);
   color: white;
   font-family: Arial, sans-serif;
-    font-size: 20px;
+  font-size: 20px;
 
   display: flex;
   align-items: center;
-
 }
 
 #startButton {
-  background-color: #26921D;
+  background-color: #26921d;
   border: none;
   color: white;
   font-size: 25px;
-    text-shadow: 2px 2px #4a4a4a;
+  text-shadow: 2px 2px #4a4a4a;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   padding: 6px 45px;
-   border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
   cursor: pointer;
 }
 
 #startButton:hover {
-  background-color: #FF6C22;
+  background-color: #ff6c22;
 }
 
 .startMenu {
   display: none;
   position: absolute;
   bottom: 45px; /*change this one to move frame*/
-  background-color: #D3E5FA;
+  background-color: #d3e5fa;
   width: 400px;
-  height:550px;
+  height: 550px;
   border: 1px solid #ccc;
   padding: 10px;
   z-index: 1;
-
 }
 .startMenu ul {
-  list-style: none; 
-  padding: 0; 
-  margin: 0; 
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .startMenu ul li {
   margin-bottom: 25px;
-  margin-top: 15px; 
+  margin-top: 15px;
 }
-
-
-
-
 
 .grid-container {
   display: grid;
-  grid-template-rows: auto 1fr auto; 
-  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr 1fr;
   height: 100%;
-
 }
 
 .grid-item {
@@ -101,11 +89,11 @@ a {
 .grid-item.top {
   grid-row: 1;
   grid-column: 1 / span 2;
-  background: linear-gradient(to bottom, #2B62DB, #0B3765); 
-  color: white; 
-  margin-top: -11px; 
-  margin-left: -11px; 
-  margin-right: -11px; 
+  background: linear-gradient(to bottom, #2b62db, #0b3765);
+  color: white;
+  margin-top: -11px;
+  margin-left: -11px;
+  margin-right: -11px;
 }
 
 .grid-item.middle-left {
@@ -114,7 +102,7 @@ a {
 }
 
 .grid-item.middle-right {
-  background-color: #8CABFF;
+  background-color: #8cabff;
   grid-row: 2;
   grid-column: 2;
   margin-right: -11px;
@@ -123,21 +111,18 @@ a {
 .grid-item.bottom {
   grid-row: 3;
   grid-column: 1 / span 2;
-  background: linear-gradient(to bottom, #2B62DB, #0B3765); 
+  background: linear-gradient(to bottom, #2b62db, #0b3765);
   color: white;
-  margin: -11px; 
+  margin: -11px;
   text-align: end;
-
 }
-
-
 
 /* Icon Styles */
 .icon-container {
   position: absolute;
   top: 20px;
   display: flex;
-flex-wrap: wrap;
+  flex-wrap: wrap;
   gap: 20px;
   right: 20px;
 }
@@ -163,8 +148,6 @@ flex-wrap: wrap;
   margin-top: -5px;
 }
 
-
-
 #websiteFrame {
   display: none;
   position: fixed;
@@ -175,14 +158,24 @@ flex-wrap: wrap;
   transform: translate(-50%, -50%);
   border: solid 3px;
   border-top: solid 40px;
-    overflow: auto;
+  overflow: auto;
 }
 
 #closeButton {
   position: absolute;
   display: none;
-  top:80px;
-  right: 15%; 
-  z-index: 1; 
+  top: 80px;
+  right: 15%;
+  z-index: 1;
 }
 
+@media only screen and (max-width: 768px) {
+  .icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .emoji {
+    font-size: 1.5rem;
+  }
+}
