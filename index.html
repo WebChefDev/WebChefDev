@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <link rel="icon" href="images/cat.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <main class="bg">
+      <div class="icon-container">
+        <div class="icon">
+          <img
+            src="images/cutlery.svg"
+            alt="fork"
+            onclick="openWebsite('https://designkitchen.dev')"
+          />
+          <span>Design<br />Kitchen</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/cook.svg"
+            alt="cook"
+            onclick="openWebsite('https://www.chefsarah.ca')"
+          />
+          <span>Food<br />Blog</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/plumb.svg"
+            alt="plumber"
+            onclick="openWebsite('https://www.evcomech.com')"
+          />
+          <span>Plumbing<br />Blog</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/cb.svg"
+            alt="cookbook"
+            onclick="window.open('https://a.co/d/8ORyEI7', '_blank')"
+          />
+          <span>Cookbook</span>
+        </div>
+        <div class="icon">
+          <img
+            src="images/java.svg"
+            alt="buy me a coffee"
+            onclick="window.open('https://www.buymeacoffee.com/chfsrh')"
+          />
+          <span>Buy Me<br />A Tea</span>
+        </div>
+
+        <div class="special-div, icon">
+          <img
+            src="images/icon.svg"
+            alt="icon maker"
+            onclick="openSpecialWebsite('https://mediumvioletred-mandrill-337900.hostingersite.com/')"
+          />
+          <span>Icon Maker</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/cross.svg"
+            alt="cross"
+            onclick="openWebsite('https://salmon-termite-647850.hostingersite.com/')"
+          />
+          <span>TikTakToe</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/check.svg"
+            alt="check"
+            onclick="openWebsite('https://aqua-dinosaur-883822.hostingersite.com/')"
+          />
+          <span>ToDo List</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/calc.svg"
+            alt="calculator"
+            onclick="openWebsite('https://darkcyan-spoonbill-959461.hostingersite.com/')"
+          />
+          <span>Calculator</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/stopwatch.svg"
+            alt="stopwatch"
+            onclick="openWebsite('https://rosybrown-dove-878506.hostingersite.com/')"
+          />
+          <span>StopWatch</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/newsletter.svg"
+            alt="newsletter"
+            onclick="openWebsite('https://chfsrh.beehiiv.com/subscribe')"
+          />
+          <span>Newsletter</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/chick.svg"
+            alt="hosting"
+            onclick="window.open('https://hostinger.com?REFERRALCODE=1SARAH747')"
+          />
+          <span>Get<br />Cheap<br />Hosting</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/pfp.svg"
+            alt="profile pic"
+            onclick="window.open('https://designcafe.dev/')"
+          />
+          <span>Custom<br />PFP</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/resume.svg"
+            alt="resume"
+            onclick="openWebsite('https://powderblue-mandrill-230150.hostingersite.com/')"
+          />
+          <span>Resume</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/trash.svg"
+            alt="trash"
+            onclick="openWebsite('https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)')"
+          />
+          <span>Trash</span>
+        </div>
+      </div>
+      <iframe
+        id="websiteFrame"
+        style="display: none"
+        width="100%"
+        height="600px"
+        frameborder="0"
+      ></iframe>
+      <button onclick="closeWebsite()" id="closeButton">Close</button>
+    </main>
+
+    <div class="windows-bar">
+      <button id="startButton">&#127828; start</button>
+      <div class="startMenu" id="startMenu">
+        <div class="grid-container">
+          <div class="grid-item top">&#128029; Sarah</div>
+          <div class="grid-item middle-left">
+            <ul>
+              <li>
+                <a href="mailto:webchefdev@gmail.com">&#x1F48C; E-mail Me!</a>
+              </li>
+              <li>
+                <a href="https://designkitchen.dev/about/"
+                  >&#128172; About Me</a
+                >
+              </li>
+              <br />
+              <li>
+                <a href="https://developer.mozilla.org/en-US/"
+                  >&#x1F68C; MDN Docs</a
+                >
+              </li>
+              <li><a href="https://xkcd.com/">&#x26C4; Your XD</a></li>
+              <li>
+                <a
+                  href="https://youtube.com/playlist?list=PLyF3cn4aqC8DwuUORhhMR-r5MYoGbSDjp&si=2_5H44j7nKganCxP"
+                  >&#x1F4BF; Media Playlist</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="grid-item middle-right">
+            <ul>
+              <li>
+                <a href="https://twitter.com/chfsrh">&#x1F425; X/Twitter</a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/chfsrh/"
+                  >&#x1F3E2; LinkedIn</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/WebChefDev">&#x1F419; GitHub</a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/chefsarah.ca/"
+                  >&#x1F3A0; Instagram</a
+                >
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@chefsarah.ca"
+                  >&#x1F3AD; Tiktok</a
+                >
+              </li>
+              <li>
+                <a href="https://www.youtube.com/@chef-sarah"
+                  >&#128065; YouTube</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://discord.com/channels/1139400470029418566/1139400470721466451"
+                  >&#x1F37F; Discord</a
+                >
+              </li>
+              <li>
+                <a href="https://www.pinterest.ca/chefsarahdotca/"
+                  >&#x1F35F; Pinterest</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="grid-item bottom">Log Off &#128075;</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

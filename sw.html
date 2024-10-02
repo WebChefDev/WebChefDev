@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stopwatch</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: black;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .stopwatch {
+        text-align: center;
+        background-color: aliceblue;
+        padding: 20px;
+        border: solid 2px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .display {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+      .buttons {
+        margin-bottom: 10px;
+      }
+      .start-btn,
+      .reset-btn,
+      .lap-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.1s;
+      }
+      .start-btn {
+        background-color: #4caf50;
+      }
+      .start-btn:active,
+      .start-btn:focus {
+        background-color: #45a049;
+      }
+      .reset-btn {
+        background-color: #f44336;
+      }
+      .reset-btn:active,
+      .reset-btn:focus {
+        background-color: #d32f2f;
+      }
+      .lap-btn {
+        background-color: #ffc107;
+      }
+      .lap-btn:active,
+      .lap-btn:focus {
+        background-color: #ffa000;
+      }
+      .start-btn:active,
+      .reset-btn:active,
+      .lap-btn:active {
+        transform: scale(0.98);
+      }
+      .laps-container {
+        margin-top: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+        text-align: left;
+        width: 100%;
+      }
+      .laps-container div {
+        padding: 2px 0;
+        font-size: 0.9em;
+      }
+      @media (max-width: 600px) {
+        .stopwatch {
+          width: 90%;
+        }
+        .display {
+          font-size: 1.5em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stopwatch">
+      <h1>Stopwatch</h1>
+      <div class="display">00:00:00</div>
+      <div class="buttons">
+        <button class="start-btn" onclick="startStopwatch()">Start</button>
+        <button class="reset-btn" onclick="resetStopwatch()">Reset</button>
+        <button class="lap-btn" onclick="lapStopwatch()">Lap</button>
+      </div>
+      <div class="laps-container"></div>
+    </div>
+    <script>
+      let timer;
+      let lastTime = 0;
+      let seconds = 0;
+      let minutes = 0;
+      let hours = 0;
+      let laps = [];
+
+      function startStopwatch() {
+        if (!timer) {
+          lastTime = performance.now();
+          timer = requestAnimationFrame(updateTime);
+          document.querySelector(".start-btn").textContent = "Stop";
+        } else {
+          cancelAnimationFrame(timer);
+          timer = null;
+          document.querySelector(".start-btn").textContent = "Start";
+        }
+      }
+
+      function resetStopwatch() {
+        if (timer) {
+          cancelAnimationFrame(timer);
+        }
+        timer = null;
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+        laps = [];
+        updateDisplay();
+        updateLaps();
+        document.querySelector(".start-btn").textContent = "Start";
+      }
+
+      function updateTime(now) {
+        const delta = now - lastTime;
+        lastTime = now;
+        seconds += delta / 1000;
+        if (seconds >= 60) {
+          seconds -= 60;
+          minutes++;
+          if (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+          }
+        }
+        updateDisplay();
+        if (hours > 0 && hours % 1 === 0) {
+          notify();
+        }
+        timer = requestAnimationFrame(updateTime);
+      }
+
+      function updateDisplay() {
+        const display = document.querySelector(".display");
+        display.textContent = `${pad(hours)}:${pad(minutes)}:${pad(
+          seconds.toFixed(0)
+        )}`;
+      }
+
+      function lapStopwatch() {
+        laps.push(`${pad(hours)}:${pad(minutes)}:${pad(seconds.toFixed(0))}`);
+        updateLaps();
+      }
+
+      function updateLaps() {
+        const lapsContainer = document.querySelector(".laps-container");
+        lapsContainer.innerHTML = "";
+        laps.forEach((lap, index) => {
+          const lapDisplay = document.createElement("div");
+          lapDisplay.textContent = `Lap ${index + 1}: ${lap}`;
+          lapsContainer.appendChild(lapDisplay);
+        });
+      }
+
+      function pad(value) {
+        return value < 10 ? `0${value}` : value;
+      }
+
+      function notify() {
+        if (Notification.permission === "granted") {
+          new Notification("Stopwatch", {
+            body: `Time elapsed: ${pad(hours)}:${pad(minutes)}:${pad(
+              seconds.toFixed(0)
+            )}`,
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if (
+          Notification.permission !== "granted" &&
+          Notification.permission !== "denied"
+        ) {
+          Notification.requestPermission();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === " ") {
+          startStopwatch();
+        } else if (event.key === "r") {
+          resetStopwatch();
+        }
+      });
+    </script>
+  </body>
+</html>

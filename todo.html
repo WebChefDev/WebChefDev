@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(
+          90deg,
+          rgba(131, 58, 180, 1) 0%,
+          rgba(253, 29, 29, 1) 50%,
+          rgba(252, 176, 69, 1) 100%
+        );
+      }
+      .container {
+        text-align: center;
+        padding: 20px;
+        border: 5px solid #000;
+        border-radius: 15px;
+        background-color: #f7f7f7;
+        width: 90%;
+        max-width: 400px;
+      }
+      input[type="text"] {
+        width: 60%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        border-radius: 15px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px 0;
+        cursor: pointer;
+        border-radius: 15px;
+        background: linear-gradient(
+          90deg,
+          rgba(131, 58, 180, 1) 0%,
+          rgba(253, 29, 29, 1) 50%,
+          rgba(252, 176, 69, 1) 100%
+        );
+        color: white;
+      }
+      ul {
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+      li {
+        margin: 10px 0;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: #f0f0f0;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          width: 95%;
+        }
+        input[type="text"],
+        button {
+          width: 100%;
+        }
+      }
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      @keyframes bounceOut {
+        25% {
+          transform: translateY(-5px);
+        }
+        50%,
+        100% {
+          transform: translateY(0);
+        }
+        75% {
+          transform: translateY(5px);
+        }
+      }
+
+      .completed {
+        animation: slideOut 0.5s forwards, bounceOut 0.5s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>To-Do List</h1>
+
+      <input type="text" id="taskInput" placeholder="Enter new task" />
+      <button id="addTaskBtn">Add Task</button>
+      <p>((Click To Remove Completed Task))</p>
+      <ul id="taskList"></ul>
+    </div>
+
+    <script>
+      document
+        .getElementById("addTaskBtn")
+        .addEventListener("click", function () {
+          addTask();
+        });
+
+      document
+        .getElementById("taskInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            addTask();
+          }
+        });
+
+      function addTask() {
+        var task = document.getElementById("taskInput").value;
+        if (task) {
+          var li = document.createElement("li");
+          li.textContent = task;
+          li.addEventListener("click", function () {
+            this.classList.add("completed");
+            setTimeout(() => this.remove(), 500);
+          });
+          document.getElementById("taskList").appendChild(li);
+          document.getElementById("taskInput").value = "";
+        }
+      }
+    </script>
+  </body>
+</html>
