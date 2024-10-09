@@ -21,6 +21,7 @@ I’m passionate about sustainable design and love working on creative, high-end
 
 ### 🎨 Design Tools:
 
+![Figma](https://img.shields.io/badge/-Figma-purple?style=flat-square&logo=figma&logoColor=white)
 ![Illustrator](https://img.shields.io/badge/-Illustrator-orange?style=flat-square&logo=adobe-illustrator&logoColor=white)
 ![Photoshop](https://img.shields.io/badge/-Photoshop-blue?style=flat-square&logo=adobe-photoshop&logoColor=white)
 ![Canva](https://img.shields.io/badge/-Canva-blue?style=flat-square&logo=canva&logoColor=white)
