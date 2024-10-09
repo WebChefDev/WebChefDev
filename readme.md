@@ -35,7 +35,7 @@ I’m passionate about sustainable design and love working on creative, high-end
 
 ### 📨 How to reach me:
 
-- Email: (mailto:webchefchats@gmail.com)
+- Email: [webchefchats@gmail.com](mailto:webchefchats@gmail.com)
 - [LinkedIn](https://linkedin.com/in/chfsrh)
 - [X/Twitter](https://x.com/s4rah_dev)
 - [My Business](https://designkitchen.dev)
