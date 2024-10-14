@@ -22,21 +22,26 @@
         margin-bottom: 20px;
       }
 
+      /* Responsive grid styling */
       #canvas {
         display: grid;
-        grid-template-columns: repeat(16, 20px);
-        grid-template-rows: repeat(16, 20px);
+        grid-template-columns: repeat(
+          16,
+          1fr
+        ); /* 1fr ensures equal scaling of columns */
+        grid-template-rows: repeat(16, 1fr);
         gap: 1px;
         margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         background-color: #fff;
         padding: 10px;
         border-radius: 8px;
+        width: 90vw; /* Make the canvas responsive to the viewport width */
+        max-width: 500px; /* Limit max size */
+        aspect-ratio: 1 / 1; /* Maintain a 1:1 aspect ratio */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       }
 
       .pixel {
-        width: 20px;
-        height: 20px;
         background-color: #fff;
         border: 1px solid #ccc;
         transition: background-color 0.1s ease;
@@ -46,6 +51,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        flex-wrap: wrap;
       }
 
       #colorPicker {
@@ -101,14 +107,18 @@
       const eraseModeButton = document.getElementById("eraseMode");
       const downloadButton = document.getElementById("download");
 
-      let isDrawing = false;
-      let drawMode = true;
+      let isDrawing = false; // Track if the user is currently drawing
+      let drawMode = true; // Default mode is drawing
 
-      // Initialize the 16x16 grid
+      // Initialize the 16x16 grid with dynamically sized pixels
       for (let i = 0; i < 16 * 16; i++) {
         const pixel = document.createElement("div");
         pixel.classList.add("pixel");
         canvas.appendChild(pixel);
+
+        // Responsive pixel sizing
+        pixel.style.width = "100%";
+        pixel.style.height = "100%";
 
         // Event listeners for drawing/erasing on both mouse and touch
         pixel.addEventListener("mousedown", startDrawing);
@@ -168,10 +178,11 @@
           }
         }
       }
+
       // Download canvas as an upscaled image
       downloadButton.addEventListener("click", () => {
-        const upscaleSize = 256;
-        const pixelSize = upscaleSize / 16;
+        const upscaleSize = 256; // You can adjust this size for a larger or smaller image
+        const pixelSize = upscaleSize / 16; // Calculate size of each pixel in the upscaled canvas
 
         const canvasData = document.createElement("canvas");
         canvasData.width = upscaleSize;
@@ -184,7 +195,7 @@
           const col = index % 16;
           const color = window.getComputedStyle(pixel).backgroundColor;
           ctx.fillStyle = color;
-          ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+          ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize); // Scale up the pixel size
         });
 
         const link = document.createElement("a");
@@ -192,14 +203,6 @@
         link.href = canvasData.toDataURL();
         link.click();
       });
-      // Prevent scrolling while drawing
-      document.body.addEventListener(
-        "touchmove",
-        function (e) {
-          e.preventDefault();
-        },
-        { passive: false }
-      );
     </script>
   </body>
 </html>
