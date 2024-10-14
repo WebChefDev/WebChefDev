@@ -179,29 +179,32 @@
         }
       }
 
-      // Download canvas as an upscaled image
       downloadButton.addEventListener("click", () => {
-        const upscaleSize = 256; // You can adjust this size for a larger or smaller image
-        const pixelSize = upscaleSize / 16; // Calculate size of each pixel in the upscaled canvas
+        const upscaleSize = 256;
+        const pixelSize = upscaleSize / 16;
 
         const canvasData = document.createElement("canvas");
         canvasData.width = upscaleSize;
         canvasData.height = upscaleSize;
         const ctx = canvasData.getContext("2d");
 
-        // Iterate over each pixel and set the canvas pixels accordingly, but scale them up
         Array.from(canvas.children).forEach((pixel, index) => {
           const row = Math.floor(index / 16);
           const col = index % 16;
           const color = window.getComputedStyle(pixel).backgroundColor;
           ctx.fillStyle = color;
-          ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize); // Scale up the pixel size
+          ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
         });
 
-        const link = document.createElement("a");
-        link.download = "minecraft_block.png";
-        link.href = canvasData.toDataURL();
-        link.click();
+        canvasData.toBlob((blob) => {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "minecraft_block.png";
+          link.click();
+
+          // Clean up object URL
+          URL.revokeObjectURL(link.href);
+        }, "image/png");
       });
     </script>
   </body>
