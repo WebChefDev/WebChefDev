@@ -2,279 +2,204 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pixel Art Icon Maker</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: #4bc0c8;
-        background: -webkit-linear-gradient(
-          to right,
-          #4bc0c8,
-          #c779d0,
-          #feac5e
-        );
-        background: linear-gradient(to right, #4bc0c8, #c779d0, #feac5e);
-      }
-
-      /*do the cursor pointers sarah!*/
-      h1 {
-        margin-top: 0;
-        text-align: center;
-      }
-
-      .large {
-        font-size: 6rem;
-      }
-
-      canvas {
-        max-width: 100%;
-        max-height: 100%;
-      }
-
-      .white {
-        background-color: white;
-        padding: 20px;
-        border-radius: 15px;
-      }
-
-      .container {
-        height: 100%;
+        font-family: "Arial", sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        margin-top: 5%;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
       }
 
-      .controls {
+      h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      #canvas {
+        display: grid;
+        grid-template-columns: repeat(16, 20px);
+        grid-template-rows: repeat(16, 20px);
+        gap: 1px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .pixel {
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        transition: background-color 0.1s ease;
+      }
+
+      #controls {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 5px;
+        gap: 10px;
       }
 
-      #iconCanvas {
-        border: 2px solid #000;
-      }
-
-      .download-button {
-        background-color: #4bc0c8;
-        padding: 5px 20px;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      #colorPicker {
+        width: 40px;
+        height: 40px;
         cursor: pointer;
-        transition: all 0.3s ease-in-out;
-      }
-
-      .download-button:hover {
-        background-color: #c779d0;
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        border: none;
+        border-radius: 4px;
       }
 
       button {
-        padding: 5px 15px;
+        background-color: #007bff;
+        color: white;
         border: none;
-        border-radius: 4px;
-        background-color: #f5f5f5;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 1rem;
         cursor: pointer;
-        transition: all 0.2s ease-in-out;
+        transition: background-color 0.3s ease;
       }
 
-      button.active,
       button:hover {
-        background-color: #ddd;
+        background-color: #0056b3;
       }
 
-      @media (max-width: 768px) {
-        .container {
-          margin-top: 10%;
-        }
-
-        .control-group {
-          margin-bottom: 15px;
-        }
-
-        input[type="number"],
-        input[type="color"],
-        button {
-          font-size: 18px;
-          padding: 10px 15px;
-        }
-
-        canvas {
-          width: 100%;
-          height: auto;
-        }
+      #download {
+        background-color: #28a745;
       }
 
-      #iconCanvas {
-        touch-action: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+      #download:hover {
+        background-color: #218838;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>
-        Make your own
-        <div class="large">icon!</div>
-      </h1>
-      <div class="white controls">
-        <div class="control-group">
-          <label for="gridSizeInput">Set Grid:</label>
-          <input
-            type="number"
-            min="3"
-            max="400"
-            value="200"
-            id="gridSizeInput"
-          />
-          <button onclick="setGridSize()">Set Grid Size</button>
-        </div>
-        <div class="control-group">
-          <label for="colorPicker">Color:</label>
-          <input type="color" id="colorPicker" value="#000000" />
-          <button id="drawMode" class="active" onclick="toggleDrawMode()">
-            Draw
-          </button>
-          <button id="eraseMode" onclick="toggleEraseMode()">Erase</button>
-          <button class="download-button" onclick="downloadCanvas()">
-            Download
-          </button>
-        </div>
-        <canvas id="iconCanvas" width="500" height="500"></canvas>
-      </div>
+    <h1>Pixel Art Icon Maker</h1>
+
+    <!-- 16x16 pixel grid -->
+    <div id="canvas"></div>
+
+    <!-- Controls -->
+    <div id="controls">
+      <input type="color" id="colorPicker" value="#000000" />
+      <button id="drawMode">Draw</button>
+      <button id="eraseMode">Erase</button>
+      <button id="download">Download</button>
     </div>
+
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let canvas = document.getElementById("iconCanvas");
-        let ctx = canvas.getContext("2d");
-        let colorPicker = document.getElementById("colorPicker");
-        let drawModeButton = document.getElementById("drawMode");
-        let eraseModeButton = document.getElementById("eraseMode");
-        let gridSizeInput = document.getElementById("gridSizeInput");
-        let isErasing = false;
-        let isDrawing = false;
-        let pixelSize = 10;
-        let showGrid = false;
+      const canvas = document.getElementById("canvas");
+      const colorPicker = document.getElementById("colorPicker");
+      const drawModeButton = document.getElementById("drawMode");
+      const eraseModeButton = document.getElementById("eraseMode");
+      const downloadButton = document.getElementById("download");
 
-        document.addEventListener(
-          "touchmove",
-          function (e) {
-            e.preventDefault();
-          },
-          { passive: false }
-        );
+      let isDrawing = false;
+      let drawMode = true;
 
-        // Resize canvas to fit the viewport
-        function resizeCanvas() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
+      // Initialize the 16x16 grid
+      for (let i = 0; i < 16 * 16; i++) {
+        const pixel = document.createElement("div");
+        pixel.classList.add("pixel");
+        canvas.appendChild(pixel);
 
-        window.addEventListener("resize", resizeCanvas);
-        resizeCanvas(); // Initial resize
+        // Event listeners for drawing/erasing on both mouse and touch
+        pixel.addEventListener("mousedown", startDrawing);
+        pixel.addEventListener("mousemove", drawIfActive);
+        pixel.addEventListener("mouseup", stopDrawing);
+        pixel.addEventListener("touchstart", startDrawing);
+        pixel.addEventListener("touchmove", drawIfActive);
+        pixel.addEventListener("touchend", stopDrawing);
+      }
 
-        function toggleDrawMode() {
-          isErasing = false;
-          drawModeButton.classList.add("active");
-          eraseModeButton.classList.remove("active");
-        }
-
-        function toggleEraseMode() {
-          isErasing = true;
-          eraseModeButton.classList.add("active");
-          drawModeButton.classList.remove("active");
-        }
-
-        function drawPixel(e) {
-          let rect = canvas.getBoundingClientRect();
-          let x, y;
-          if (e.type.startsWith("touch")) {
-            x = e.touches[0].clientX - rect.left;
-            y = e.touches[0].clientY - rect.top;
-          } else {
-            x = e.clientX - rect.left;
-            y = e.clientY - rect.top;
-          }
-
-          x = Math.floor(x / pixelSize) * pixelSize;
-          y = Math.floor(y / pixelSize) * pixelSize;
-
-          if (isErasing) {
-            ctx.clearRect(x, y, pixelSize, pixelSize);
-          } else {
-            ctx.fillStyle = colorPicker.value;
-            ctx.fillRect(x, y, pixelSize, pixelSize);
-          }
-        }
-
-        function setGridSize() {
-          let gridSize = parseInt(gridSizeInput.value, 10);
-          pixelSize = canvas.width / gridSize;
-          showGrid = false;
-
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function downloadCanvas() {
-          let link = document.createElement("a");
-          link.download = "icon.png";
-          link.href = canvas
-            .toDataURL("image/png")
-            .replace("image/png", "image/octet-stream");
-          link.click();
-        }
-
-        function handleStart(e) {
-          isDrawing = true;
-          drawPixel(e);
-          // Disable scrolling while drawing
-          document.body.style.overflow = "hidden";
-        }
-
-        function handleMove(e) {
-          if (isDrawing) {
-            drawPixel(e);
-          }
-        }
-
-        function handleEnd() {
-          isDrawing = false;
-          document.body.style.overflow = "auto";
-        }
-
-        // Add touch events
-        canvas.addEventListener("touchstart", handleStart, { passive: false });
-        canvas.addEventListener("touchmove", handleMove, { passive: false });
-        canvas.addEventListener("touchend", handleEnd);
-        canvas.addEventListener("touchcancel", handleEnd);
-
-        // Add mouse events
-        canvas.addEventListener("mousedown", handleStart);
-        canvas.addEventListener("mousemove", handleMove);
-        canvas.addEventListener("mouseup", handleEnd);
-        canvas.addEventListener("mouseout", handleEnd);
-
-        drawModeButton.addEventListener("click", toggleDrawMode);
-        eraseModeButton.addEventListener("click", toggleEraseMode);
-        gridSizeInput.addEventListener("change", setGridSize);
-        document
-          .querySelector(".download-button")
-          .addEventListener("click", downloadCanvas);
-
-        // Initialize with draw mode
-        toggleDrawMode();
+      // Switch to draw mode
+      drawModeButton.addEventListener("click", () => {
+        drawMode = true;
       });
+
+      // Switch to erase mode
+      eraseModeButton.addEventListener("click", () => {
+        drawMode = false;
+      });
+
+      // Start drawing
+      function startDrawing(e) {
+        isDrawing = true;
+        changeColor(e);
+      }
+
+      // Stop drawing
+      function stopDrawing() {
+        isDrawing = false;
+      }
+
+      // Draw if the user is currently holding down the mouse or dragging their finger
+      function drawIfActive(e) {
+        if (isDrawing) {
+          changeColor(e);
+        }
+      }
+
+      // Function to change the color of a pixel
+      function changeColor(e) {
+        if (e.type === "touchmove") {
+          e.preventDefault(); // Prevent scrolling on touch devices
+          const touch = e.touches[0];
+          const element = document.elementFromPoint(
+            touch.clientX,
+            touch.clientY
+          );
+          if (element && element.classList.contains("pixel")) {
+            element.style.backgroundColor = drawMode
+              ? colorPicker.value
+              : "#fff"; // Draw or erase
+          }
+        } else {
+          const pixel = e.target;
+          if (pixel.classList.contains("pixel")) {
+            pixel.style.backgroundColor = drawMode ? colorPicker.value : "#fff"; // Draw or erase
+          }
+        }
+      }
+      // Download canvas as an upscaled image
+      downloadButton.addEventListener("click", () => {
+        const upscaleSize = 256;
+        const pixelSize = upscaleSize / 16;
+
+        const canvasData = document.createElement("canvas");
+        canvasData.width = upscaleSize;
+        canvasData.height = upscaleSize;
+        const ctx = canvasData.getContext("2d");
+
+        // Iterate over each pixel and set the canvas pixels accordingly, but scale them up
+        Array.from(canvas.children).forEach((pixel, index) => {
+          const row = Math.floor(index / 16);
+          const col = index % 16;
+          const color = window.getComputedStyle(pixel).backgroundColor;
+          ctx.fillStyle = color;
+          ctx.fillRect(col * pixelSize, row * pixelSize, pixelSize, pixelSize);
+        });
+
+        const link = document.createElement("a");
+        link.download = "minecraft_block.png";
+        link.href = canvasData.toDataURL();
+        link.click();
+      });
+      // Prevent scrolling while drawing
+      document.body.addEventListener(
+        "touchmove",
+        function (e) {
+          e.preventDefault();
+        },
+        { passive: false }
+      );
     </script>
   </body>
 </html>
