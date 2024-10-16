@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notepad Clone</title>
+    <style>
+      body {
+        font-family: "Lucida Console", Monaco, monospace;
+        background-color: #c3d9ff;
+        margin: 0;
+      }
+
+      #notepad {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+      }
+
+      .menu-bar {
+        background-color: #c3cbd1;
+        padding: 5px;
+        display: flex;
+        justify-content: start;
+        gap: 20px;
+        font-size: 14px;
+      }
+
+      .menu-bar span {
+        cursor: pointer;
+        padding: 0 10px;
+      }
+
+      .text-area {
+        flex-grow: 1;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 14px;
+        resize: none;
+      }
+
+      .status-bar {
+        background-color: #e0e0e0;
+        padding: 5px;
+        text-align: right;
+        font-size: 12px;
+      }
+
+      /* Dropdown styles */
+      .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        top: 40px;
+        left: 0;
+      }
+
+      .dropdown-item {
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
+      .dropdown-item:hover {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="notepad">
+      <div class="menu-bar">
+        <span id="file-menu">File</span>
+        <span id="edit-menu">Edit</span>
+        <span id="view-menu">View</span>
+      </div>
+      <!-- Dropdown Menus -->
+      <div class="dropdown" id="file-dropdown" style="display: block">
+        <div class="dropdown-item" id="new-file">New</div>
+        <div class="dropdown-item" id="open-file">Open</div>
+        <div class="dropdown-item" id="save-file">Save</div>
+      </div>
+      <div class="dropdown" id="edit-dropdown">
+        <div class="dropdown-item" id="undo">Undo</div>
+        <div class="dropdown-item" id="cut">Cut</div>
+        <div class="dropdown-item" id="copy">Copy</div>
+        <div class="dropdown-item" id="paste">Paste</div>
+        <div class="dropdown-item" id="select-all">Select All</div>
+      </div>
+      <div class="dropdown" id="view-dropdown">
+        <div class="dropdown-item" id="toggle-status-bar">Status Bar</div>
+      </div>
+
+      <textarea
+        class="text-area"
+        id="editor"
+        placeholder="Start typing..."
+      ></textarea>
+      <div class="status-bar" id="status-bar">Ln 1, Col 1</div>
+    </div>
+
+    <script>
+      const editor = document.getElementById("editor");
+      const statusBar = document.getElementById("status-bar");
+
+      editor.addEventListener("input", updateStatusBar);
+      editor.addEventListener("click", updateStatusBar);
+
+      function updateStatusBar() {
+        const lines = editor.value.substr(0, editor.selectionStart).split("\n");
+        const line = lines.length;
+        const col = lines[lines.length - 1].length + 1;
+        statusBar.textContent = `Ln ${line}, Col ${col}`;
+      }
+
+      // Toggle dropdowns on click
+      document.getElementById("file-menu").addEventListener("click", () => {
+        console.log("File menu clicked"); // Debug log
+        toggleDropdown("file-dropdown");
+      });
+      document.getElementById("edit-menu").addEventListener("click", () => {
+        console.log("Edit menu clicked"); // Debug log
+        toggleDropdown("edit-dropdown");
+      });
+      document.getElementById("view-menu").addEventListener("click", () => {
+        console.log("View menu clicked"); // Debug log
+        toggleDropdown("view-dropdown");
+      });
+
+      // Close dropdown when clicked outside
+      window.onclick = function (event) {
+        if (
+          !event.target.matches(".dropdown-item") &&
+          !event.target.matches(".menu-bar span")
+        ) {
+          hideDropdowns();
+        }
+      };
+
+      // Dropdown functionality
+      function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+        const menuItem = document.getElementById(`${id.split("-")[0]}-menu`);
+        const rect = menuItem.getBoundingClientRect();
+
+        dropdown.style.top = `${rect.bottom + 5}px`;
+        dropdown.style.left = `${rect.left}px`;
+
+        // Check if the dropdown is currently displayed
+        if (dropdown.style.display === "block") {
+          dropdown.style.display = "none"; // Hide the dropdown if it's already open
+        } else {
+          hideDropdowns(); // Hide other dropdowns
+          dropdown.style.display = "block"; // Show the dropdown
+        }
+
+        console.log(
+          `Toggling dropdown: ${id}, current display: ${dropdown.style.display}`
+        ); // Debug log
+      }
+
+      function hideDropdowns() {
+        document
+          .querySelectorAll(".dropdown")
+          .forEach((d) => (d.style.display = "none"));
+      }
+
+      // File Menu Functionality
+      document
+        .getElementById("new-file")
+        .addEventListener("click", () => (editor.value = ""));
+      document.getElementById("save-file").addEventListener("click", saveFile);
+      document.getElementById("open-file").addEventListener("click", openFile);
+
+      // Edit Menu Functionality
+      document
+        .getElementById("undo")
+        .addEventListener("click", () => document.execCommand("undo"));
+      document.getElementById("cut").addEventListener("click", async () => {
+        const selectedText = editor.value.substring(
+          editor.selectionStart,
+          editor.selectionEnd
+        );
+        await navigator.clipboard.writeText(selectedText); // Copy selected text to clipboard
+        editor.setRangeText(
+          "",
+          editor.selectionStart,
+          editor.selectionEnd,
+          "end"
+        ); // Remove selected text
+        updateStatusBar(); // Update the status bar after cutting
+      });
+      document
+        .getElementById("copy")
+        .addEventListener("click", () => document.execCommand("copy"));
+      document.getElementById("paste").addEventListener("click", async () => {
+        try {
+          const text = await navigator.clipboard.readText(); // Read text from clipboard
+          const start = editor.selectionStart; // Get the current selection start
+          const end = editor.selectionEnd; // Get the current selection end
+
+          // Insert the text at the current cursor position
+          editor.setRangeText(text, start, end, "end");
+          updateStatusBar(); // Update the status bar after pasting
+        } catch (err) {
+          console.error("Failed to read clipboard contents: ", err);
+        }
+      });
+      document
+        .getElementById("select-all")
+        .addEventListener("click", () => editor.select());
+
+      // View Menu Functionality
+      document
+        .getElementById("toggle-status-bar")
+        .addEventListener("click", () => {
+          statusBar.style.display =
+            statusBar.style.display === "none" ? "block" : "none";
+        });
+
+      // Save file as .txt
+      function saveFile() {
+        const text = editor.value;
+        const blob = new Blob([text], { type: "text/plain" });
+        const anchor = document.createElement("a");
+        anchor.href = URL.createObjectURL(blob);
+        anchor.download = "untitled.txt";
+        anchor.click();
+      }
+
+      // Open a file
+      function openFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".txt";
+        input.onchange = function (event) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            editor.value = e.target.result;
+          };
+          reader.readAsText(event.target.files[0]);
+        };
+        input.click();
+      }
+
+      // Hide all dropdowns on page load
+      document.querySelectorAll(".dropdown").forEach((dropdown) => {
+        dropdown.style.display = "none";
+      });
+    </script>
+  </body>
+</html>
