@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me Timeline</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: white;
+        font-family: "Arial", sans-serif;
+      }
+
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+
+      .fixed-section {
+        position: fixed;
+        width: 30%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url("images/bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: white;
+      }
+
+      .fixed-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      .fixed-section h1,
+      .fixed-section p,
+      .fixed-section .buttons {
+        position: relative;
+        z-index: 2;
+        padding: 10px;
+      }
+      .fixed-section .buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .fixed-section a {
+        padding: 10px 20px;
+        background-color: white;
+        color: #0d0d0d;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+      }
+
+      .fixed-section a:hover {
+        background-color: #555;
+        color: white;
+      }
+
+      /* Right scrollable section */
+      .scrollable-section {
+        margin-left: 30%;
+        padding: 20px;
+        height: 100vh;
+        overflow-y: scroll;
+        width: 70%;
+        position: relative;
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .event {
+        display: flex;
+        margin-bottom: 50px;
+      }
+
+      .date {
+        font-size: 2rem;
+        font-weight: bold;
+        width: 100px;
+        flex-shrink: 0;
+        text-align: right;
+        margin-right: 20px;
+      }
+
+      .description {
+        font-size: 1rem;
+        font-weight: 300;
+        max-width: 600px;
+        border-left: 2px solid white;
+        padding-left: 20px;
+      }
+
+      .description p {
+        line-height: 1.5;
+      }
+
+      @media (max-width: 768px) {
+        .fixed-section {
+          width: 100%;
+          height: auto;
+          position: relative;
+          text-align: center;
+          padding: 20px;
+        }
+
+        .fixed-section h1 {
+          font-size: 2rem;
+        }
+
+        .fixed-section p {
+          font-size: 1rem;
+        }
+
+        .fixed-section .a {
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .scrollable-section {
+          margin-left: 0;
+          padding: 20px;
+        }
+
+        .date {
+          font-size: 1.5rem;
+        }
+
+        .description {
+          font-size: 0.9rem;
+          padding-left: 10px;
+        }
+      }
+      @media (max-width: 480px) {
+        .container {
+          display: block;
+        }
+
+        .fixed-section {
+          position: relative;
+          width: 100%;
+          text-align: center;
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+
+        .scrollable-section {
+          width: 100%;
+          height: auto;
+          padding: 20px;
+          overflow-y: auto;
+        }
+
+        .fixed-section h1 {
+          font-size: 2rem;
+        }
+
+        .fixed-section p {
+          font-size: 1rem;
+        }
+
+        .fixed-section .buttons {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .date {
+          font-size: 1.3rem;
+        }
+
+        .description {
+          font-size: 0.85rem;
+          padding-left: 10px;
+        }
+      }
+
+      .profile-pic {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid white;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Left fixed section -->
+      <div class="fixed-section">
+        <img
+          src="images/profile-pic.jpg"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
+        <h1>About Me</h1>
+        <p>Thanks for stopping by!</p>
+        <div class="buttons">
+          <a href="https://www.webchef.dev">To Desktop</a>
+          <a href="https://designkitchen.dev/about/">Contact</a>
+        </div>
+      </div>
+
+      <!-- Right scrollable section -->
+      <div class="scrollable-section">
+        <div class="timeline">
+          <div class="event">
+            <div class="date">80's</div>
+            <div class="description">
+              <p>Born</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">1989</div>
+            <div class="description">
+              <p>Saw Rob Boyd win the world cup downhill in skiing.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">1997</div>
+            <div class="description">
+              <p>Forever crippled my thumbs playing wave race.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2002</div>
+            <div class="description">
+              <p>
+                Launched my first website... It was for a fashion line I had
+                made called "Pretty in Punk." 🤘
+              </p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2003</div>
+            <div class="description">
+              <p>Won the Big Sky Women's golf tournament 🏌🏼</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2006</div>
+            <div class="description">
+              <p>
+                First time I swam in the ocean. It was a spiritual experience.
+              </p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2007</div>
+            <div class="description">
+              <p>Made my first Facebook account. Regret it.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2009</div>
+            <div class="description">
+              <p>Walked on frost in Hawaii.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2010</div>
+            <div class="description">
+              <p>Worked the 2010 Winter Olympics then moved to Edmonton.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2012</div>
+            <div class="description">
+              <p>Got my first iPhone 📱👀</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2013</div>
+            <div class="description">
+              <p>Started my private chef business.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2016</div>
+            <div class="description">
+              <p>Competed in the World Food Championships. Came in 4th.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2017</div>
+            <div class="description">
+              <p>Bought my first house.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2020</div>
+            <div class="description">
+              <p>You know.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2022</div>
+            <div class="description">
+              <p>Started our plumbing business.</p>
+            </div>
+          </div>
+
+          <div class="event">
+            <div class="date">2024</div>
+            <div class="description">
+              <p>Tricked you into reading this whole website</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

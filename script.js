@@ -1,4 +1,3 @@
-// JavaScript to handle the start menu popup functionality
 document.getElementById("startButton").addEventListener("click", function () {
   var startMenu = document.getElementById("startMenu");
   if (startMenu.style.display === "block") {
@@ -12,7 +11,7 @@ function openSpecialWebsite(url) {
   if (isTouchDevice()) {
     window.open(url, "_blank");
   } else {
-    openWebsite(url); // Fall back to iframe for non-touch devices
+    openWebsite(url);
   }
 }
 
