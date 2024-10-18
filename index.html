@@ -6,6 +6,21 @@
     <title>Portfolio</title>
     <link rel="icon" href="images/cat.svg" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <style>
+      .clock {
+        position: fixed;
+        bottom: 7px; 
+        right: 10px;
+        background-color: #3daeff; 
+        border: 2px solid #1f007d; 
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 16px;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        z-index: 1000; 
+      }
+    </style>
   </head>
   <body>
     <main class="bg">
@@ -179,6 +194,8 @@
         frameborder="0"
       ></iframe>
       <button onclick="closeWebsite()" id="closeButton">Close</button>
+      <!-- Add the clock div here -->
+      <div class="clock" id="clock"></div>
     </main>
 
     <div class="windows-bar">
@@ -256,5 +273,19 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+      // JavaScript to update the clock
+      function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+      }
+
+      // Update the clock every second
+      setInterval(updateClock, 1000);
+      updateClock(); // Initial call to set the clock immediately
+    </script>
   </body>
 </html>
