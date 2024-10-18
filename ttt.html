@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
-
     <style>
       body {
         background-image: linear-gradient(
@@ -27,20 +26,17 @@
         height: 100vh;
         text-align: center;
       }
-
       .game-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-top: 150px;
       }
-
       .board {
         display: grid;
         grid-template-columns: 100px 100px 100px;
         gap: 5px;
       }
-
       .cell {
         background-color: aliceblue;
         width: 100px;
@@ -49,7 +45,6 @@
         border: 1px solid black;
         font-size: 100px;
       }
-
       .modal {
         display: none;
         position: fixed;
@@ -61,7 +56,6 @@
         overflow: auto;
         background-color: black;
       }
-
       .modal-content {
         background-color: #fefefe;
         margin: 15% auto;
@@ -70,20 +64,12 @@
         width: 30%;
         text-align: center;
       }
-
       .close-btn {
         color: #aaa;
         float: right;
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
-      }
-
-      #resetButton {
-        margin-top: 20px;
-        padding: 10px 15px;
-        cursor: pointer;
-        border-radius: 25px;
       }
     </style>
   </head>
@@ -92,10 +78,10 @@
       <div class="play">
         <h1>🕹️Let's Play a Game🕹️</h1>
         <p>
-          Hi, welcome to the <i>least</i> fun game ever!<br />
+          Hi, welcome to the <i>least</i> fun game ever!<br /><br>
           This game uses the
           <a href="https://en.wikipedia.org/wiki/Minimax"> minimax</a> algorithm
-          which makes it unbeatable.<br />The best you can hope for is a draw!
+          which makes it unbeatable.<br /><br>The best you can hope for is a draw!
         </p>
       </div>
       <div class="board">
@@ -110,7 +96,6 @@
         <div class="cell" data-index="8"></div>
       </div>
       <p id="status"></p>
-      <button id="resetButton">Reset Game</button>
     </div>
     <div id="gameModal" class="modal">
       <div class="modal-content">
@@ -123,7 +108,6 @@
       let currentPlayer = "X";
       let board = Array(9).fill("");
       let isGameOver = false;
-      const resetButton = document.getElementById("resetButton");
       const winningCombos = [
         [0, 1, 2],
         [3, 4, 5],
@@ -247,7 +231,6 @@
         modal.style.display = "none";
       }
 
-      resetButton.addEventListener("click", resetGame);
       var modal = document.getElementById("gameModal");
       var span = document.getElementsByClassName("close-btn")[0];
 
@@ -258,6 +241,7 @@
 
       span.onclick = function () {
         modal.style.display = "none";
+        resetGame(); // Reset the game when the modal is closed
       };
     </script>
   </body>

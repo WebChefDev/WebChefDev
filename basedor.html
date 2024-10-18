@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Based or Not Based</title>
+    <title>Magic 8 Ball</title>
     <style>
       body {
         font-family: sans-serif;
@@ -11,17 +11,44 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f0f0f0;
+        background-color: #121212; 
+        color: white; 
       }
       .container {
         text-align: center;
         padding: 20px;
+        background-color: #1e1e1e; 
+        border-radius: 50%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        width: 500px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
       input {
         font-size: 24px;
         padding: 10px;
-        width: 300px;
+        width: 80%;
         margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #444;
+        background-color: #2a2a2a; 
+        color: white; 
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 24px;
+        border-radius: 5px;
+        border: none;
+        background-color: #ff4081; 
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #c60055;
       }
       .result {
         font-size: 36px;
@@ -31,33 +58,32 @@
   </head>
   <body>
     <div class="container">
-      <h1>Are You Based or Not?</h1>
-      <input type="text" id="handle" placeholder="Enter your @ handle" />
-      <button onclick="checkBased()">Check</button>
+      <h1>🎱 Magic 8 Ball 🎱</h1>
+      <input type="text" id="question" placeholder="Ask a yes/no question" />
+      <button onclick="askMagic8Ball()">Ask</button>
       <div class="result" id="result"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
     <script>
-      function checkBased() {
-        const handle = document.getElementById("handle").value;
+      function askMagic8Ball() {
+        const question = document.getElementById("question").value;
         const resultDiv = document.getElementById("result");
 
-        // Possible outcomes
         const outcomes = [
-          { text: `🎉 ${handle} is BASED! 🎉`, based: true },
-          { text: `😔 Outlook Not So Good 😔`, based: false },
-          { text: `🔄 Try Again Later 🔄`, based: false },
-          { text: `🤔 It Is Unclear 🤔`, based: false },
+          { text: "🎉 Yes! 🎉", positive: true },
+          { text: "😔 No. 😔", positive: false },
+          { text: "🔄 Ask again later. 🔄", positive: false },
+          { text: "🤔 Cannot predict now. 🤔", positive: false },
         ];
 
         const randomOutcome =
           outcomes[Math.floor(Math.random() * outcomes.length)];
 
         resultDiv.innerHTML = randomOutcome.text;
-        resultDiv.style.color = randomOutcome.based ? "green" : "red";
+        resultDiv.style.color = randomOutcome.positive ? "green" : "red";
 
-        if (randomOutcome.based) {
+        if (randomOutcome.positive) {
           showConfetti();
         }
       }

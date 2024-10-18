@@ -28,16 +28,16 @@
         grid-template-columns: repeat(
           16,
           1fr
-        ); /* 1fr ensures equal scaling of columns */
+        ); 
         grid-template-rows: repeat(16, 1fr);
         gap: 1px;
         margin-bottom: 20px;
         background-color: #fff;
         padding: 10px;
         border-radius: 8px;
-        width: 90vw; /* Make the canvas responsive to the viewport width */
-        max-width: 500px; /* Limit max size */
-        aspect-ratio: 1 / 1; /* Maintain a 1:1 aspect ratio */
+        width: 90vw; 
+        max-width: 500px; 
+        aspect-ratio: 1 / 1; 
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       }
 
@@ -83,6 +83,36 @@
 
       #download:hover {
         background-color: #218838;
+      }
+
+      @media (max-width: 180px) {
+        body {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        #canvas {
+          width: 100%;
+          max-width: none;
+        }
+
+        #controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        button {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+
+        #colorPicker {
+          width: 100%;
+          height: 50px;
+        }
       }
     </style>
   </head>

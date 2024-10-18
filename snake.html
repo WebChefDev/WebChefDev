@@ -9,17 +9,58 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #f0f0f0;
+        background-color: black;
         font-family: Arial, sans-serif;
+        color:#a9007c;
       }
       canvas {
-        border: 1px solid #000;
+        border: 5px solid #a9007c;
+        width: 90vw; 
+        height: 90vw; 
+        max-width: 400px; 
+        max-height: 400px; 
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .control-row {
+        display: flex;
+        justify-content: center;
+      }
+      .button {
+        padding: 10px;
+        margin: 5px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 40px; 
+        height: 40px; 
+      }
+      .button:active {
+        background-color: #45a049;
       }
     </style>
   </head>
   <body>
     <h1>Snake Game</h1>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+      <div class="control-row">
+        <button class="button" onclick="changeDirection({key: 'ArrowUp'})">↑</button>
+      </div>
+      <div class="control-row">
+        <button class="button" onclick="changeDirection({key: 'ArrowLeft'})">←</button>
+        <button class="button" onclick="changeDirection({key: 'ArrowRight'})">→</button>
+      </div>
+      <div class="control-row">
+        <button class="button" onclick="changeDirection({key: 'ArrowDown'})">↓</button>
+      </div>
+    </div>
     <script>
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
@@ -48,7 +89,7 @@
         });
 
         // Draw the food
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "blue";
         ctx.fillRect(
           food.x * gridSize,
           food.y * gridSize,

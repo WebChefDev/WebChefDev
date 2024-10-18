@@ -12,19 +12,14 @@
         height: 100vh;
         margin: 0;
         font-family: Arial, sans-serif;
-        background: linear-gradient(
-          90deg,
-          rgba(131, 58, 180, 1) 0%,
-          rgba(253, 29, 29, 1) 50%,
-          rgba(252, 176, 69, 1) 100%
-        );
+        background-color: #121212;
       }
       .container {
         text-align: center;
         padding: 20px;
-        border: 5px solid #000;
+        border: 5px solid #444;
         border-radius: 15px;
-        background-color: #f7f7f7;
+        background-color: #1e1e1e;
         width: 90%;
         max-width: 400px;
       }
@@ -34,19 +29,22 @@
         margin: 10px 0;
         box-sizing: border-box;
         border-radius: 15px;
+        border: 1px solid #444;
+        background-color: #2a2a2a;
+        color: #fff;
       }
       button {
         padding: 10px 20px;
         margin: 10px 0;
         cursor: pointer;
         border-radius: 15px;
-        background: linear-gradient(
-          90deg,
-          rgba(131, 58, 180, 1) 0%,
-          rgba(253, 29, 29, 1) 50%,
-          rgba(252, 176, 69, 1) 100%
-        );
+        background-color: #ff4081; 
         color: white;
+        border: none;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #c60055; 
       }
       ul {
         padding: 0;
@@ -56,15 +54,16 @@
       li {
         margin: 10px 0;
         padding: 10px;
-        background: #fff;
-        border: 1px solid #ddd;
+        background: #2a2a2a;
+        border: 1px solid #444;
         border-radius: 15px;
         cursor: pointer;
+        transition: background-color 0.3s;
+        color: #ff4081; 
       }
       li:hover {
-        background-color: #f0f0f0;
+        background-color: #3a3a3a;
       }
-
       @media (max-width: 600px) {
         .container {
           width: 95%;
@@ -84,7 +83,6 @@
           opacity: 0;
         }
       }
-
       @keyframes bounceOut {
         25% {
           transform: translateY(-5px);
@@ -97,7 +95,6 @@
           transform: translateY(5px);
         }
       }
-
       .completed {
         animation: slideOut 0.5s forwards, bounceOut 0.5s ease-out;
       }
@@ -105,21 +102,18 @@
   </head>
   <body>
     <div class="container">
-      <h1>To-Do List</h1>
-
+      <h1 style="color: #fff;">To-Do List</h1>
       <input type="text" id="taskInput" placeholder="Enter new task" />
       <button id="addTaskBtn">Add Task</button>
-      <p>((Click To Remove Completed Task))</p>
+      <p style="color: #bbb;">((Click To Remove Completed Task))</p>
       <ul id="taskList"></ul>
     </div>
-
     <script>
       document
         .getElementById("addTaskBtn")
         .addEventListener("click", function () {
           addTask();
         });
-
       document
         .getElementById("taskInput")
         .addEventListener("keypress", function (e) {
@@ -127,7 +121,6 @@
             addTask();
           }
         });
-
       function addTask() {
         var task = document.getElementById("taskInput").value;
         if (task) {
