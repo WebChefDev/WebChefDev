@@ -36,6 +36,10 @@ a {
   z-index: 1000;
 }
 
+
+
+
+
 .windows-bar {
   position: fixed;
   bottom: 0px;
@@ -193,4 +197,11 @@ a {
   .emoji {
     font-size: 1.5rem;
   }
+}
+
+iframe {
+  border: none;
+  height: 18px;
+  margin-left: 15px;
+ 
 }
