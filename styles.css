@@ -201,7 +201,22 @@ a {
 
 iframe {
   border: none;
-  height: 18px;
-  margin-left: 15px;
- 
+  width: auto;
+  height: auto;
+  display: block;
+  overflow: hidden;
+  position: static;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  z-index: 420;
+
+}
+
+.counter {
+margin-top: 130px;
+margin-left: 10px;
+  
+
+
 }
