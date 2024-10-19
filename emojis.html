@@ -128,6 +128,12 @@
             revealEmptyCells(row, col);
           }
         }
+
+        // Check for win condition
+        if (checkWinCondition()) {
+          alert("Congratulations! You've cleared all non-mine cells! 🎉");
+          setTimeout(resetGame, 100);
+        }
       }
 
       function revealAllMines() {
@@ -171,6 +177,17 @@
       function resetGame() {
         grid = [];
         createGrid();
+      }
+
+      function checkWinCondition() {
+        for (let i = 0; i < gridSize; i++) {
+          for (let j = 0; j < gridSize; j++) {
+            if (!grid[i][j].mine && !grid[i][j].revealed) {
+              return false; // Found a non-mine cell that is not revealed
+            }
+          }
+        }
+        return true; // All non-mine cells are revealed
       }
 
       createGrid();
