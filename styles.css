@@ -72,6 +72,15 @@ a {
   background-color: #ff6c22;
 }
 
+@media only screen and (max-width: 768px) {
+  #startButton {
+    font-size: 10px; 
+    padding: 10px 10px; 
+    height: 45px;
+  }
+ 
+
+}
 .startMenu {
   display: none;
   position: absolute;
@@ -182,30 +191,34 @@ a {
 #closeButton {
   position: absolute;
   display: none;
-  top: 70px;
-  right: 15%;
-  z-index: 1;
+  top: 4.8em;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100000;
+  background-color: #f100c9;
 }
 
 @media only screen and (max-width: 768px) {
+
+  .icon {
+    font-size: 12px;
+  }
   .icon img {
-    width: 50px;
-    height: 50px;
-    padding: 5px;
+    width: 30px;
+    height: 30px;
+
   }
 
-  .emoji {
-    font-size: 1.5rem;
-  }
+  
 }
 
 iframe {
   border: none;
-  width: auto;
+  width: 100%;
   height: auto;
   display: block;
   overflow: hidden;
-  position: static;
+  position: relative;
   margin: 0;
   padding: 0;
   background: transparent;
@@ -214,7 +227,7 @@ iframe {
 }
 
 .counter {
-margin-top: 130px;
+margin-top: 125px;
 margin-left: 10px;
   
 

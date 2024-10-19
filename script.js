@@ -30,12 +30,6 @@ function openWebsite(url) {
   document.getElementById("closeButton").style.display = "block";
 }
 
-function openWebsite(url) {
-  var iframe = document.getElementById("websiteFrame");
-  iframe.src = url;
-  iframe.style.display = "block";
-  document.getElementById("closeButton").style.display = "block";
-}
 
 function closeWebsite() {
   var iframe = document.getElementById("websiteFrame");
@@ -43,6 +37,11 @@ function closeWebsite() {
   document.getElementById("closeButton").style.display = "none";
 }
 
+
+
+
+
+//clock
 
 
 function updateClock() {
