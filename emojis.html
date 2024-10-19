@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emojisweep</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: black;
+        color: white;
+      }
+
+      #emojisweep {
+        display: grid;
+        grid-template-columns: repeat(10, 40px);
+        grid-template-rows: repeat(10, 40px);
+        gap: 2px;
+        margin: 20px auto;
+        width: max-content;
+      }
+
+      .cell {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ddd;
+        font-size: 24px;
+        cursor: pointer;
+        user-select: none;
+        border: 2px solid #bbb;
+      }
+
+      .cell.revealed {
+        background-color: #fff;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Emojisweep</h1>
+    <div id="emojisweep"></div>
+    <script>
+      let gridSize = 10;
+      const mineCount = 15;
+      let grid = [];
+      const emojiMap = ["🌟", "🔥", "🌈", "💧", "🍀", "💎", "☀️", "🌙"];
+
+      function createGrid() {
+        const emojisweep = document.getElementById("emojisweep");
+        emojisweep.innerHTML = ""; // Clear previous grid
+
+        for (let i = 0; i < gridSize; i++) {
+          grid[i] = [];
+          for (let j = 0; j < gridSize; j++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.dataset.row = i;
+            cell.dataset.col = j;
+            cell.addEventListener("click", revealCell);
+            emojisweep.appendChild(cell);
+            grid[i][j] = {
+              element: cell,
+              mine: false,
+              revealed: false,
+              count: 0,
+            };
+          }
+        }
+
+        let placedMines = 0;
+        while (placedMines < mineCount) {
+          const row = Math.floor(Math.random() * gridSize);
+          const col = Math.floor(Math.random() * gridSize);
+
+          if (!grid[row][col].mine) {
+            grid[row][col].mine = true;
+            placedMines++;
+          }
+        }
+
+        for (let i = 0; i < gridSize; i++) {
+          for (let j = 0; j < gridSize; j++) {
+            if (!grid[i][j].mine) {
+              let mineCount = 0;
+              for (let x = -1; x <= 1; x++) {
+                for (let y = -1; y <= 1; y++) {
+                  const newRow = i + x;
+                  const newCol = j + y;
+                  if (
+                    newRow >= 0 &&
+                    newRow < gridSize &&
+                    newCol >= 0 &&
+                    newCol < gridSize
+                  ) {
+                    if (grid[newRow][newCol].mine) mineCount++;
+                  }
+                }
+              }
+              grid[i][j].count = mineCount;
+            }
+          }
+        }
+      }
+
+      function revealCell() {
+        const row = parseInt(this.dataset.row);
+        const col = parseInt(this.dataset.col);
+        const cellData = grid[row][col];
+
+        if (cellData.revealed) return;
+
+        cellData.revealed = true;
+        cellData.element.classList.add("revealed");
+
+        if (cellData.mine) {
+          cellData.element.textContent = "💣";
+          alert("Game Over! You hit a bomb! 💣");
+          setTimeout(resetGame, 100);
+        } else {
+          if (cellData.count > 0) {
+            cellData.element.textContent = emojiMap[cellData.count - 1];
+          } else {
+            cellData.element.textContent = "😊";
+            revealEmptyCells(row, col);
+          }
+        }
+      }
+
+      function revealAllMines() {
+        for (let i = 0; i < gridSize; i++) {
+          for (let j = 0; j < gridSize; j++) {
+            if (grid[i][j].mine) {
+              grid[i][j].element.textContent = "💣";
+            }
+          }
+        }
+      }
+
+      function revealEmptyCells(row, col) {
+        for (let x = -1; x <= 1; x++) {
+          for (let y = -1; y <= 1; y++) {
+            const newRow = row + x;
+            const newCol = col + y;
+            if (
+              newRow >= 0 &&
+              newRow < gridSize &&
+              newCol >= 0 &&
+              newCol < gridSize
+            ) {
+              const adjacentCell = grid[newRow][newCol];
+              if (!adjacentCell.revealed && !adjacentCell.mine) {
+                adjacentCell.revealed = true;
+                adjacentCell.element.classList.add("revealed");
+                if (adjacentCell.count > 0) {
+                  adjacentCell.element.textContent =
+                    emojiMap[adjacentCell.count - 1];
+                } else {
+                  adjacentCell.element.textContent = "";
+                  revealEmptyCells(newRow, newCol);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      function resetGame() {
+        grid = [];
+        createGrid();
+      }
+
+      createGrid();
+    </script>
+  </body>
+</html>

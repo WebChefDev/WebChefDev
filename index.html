@@ -6,21 +6,6 @@
     <title>Portfolio</title>
     <link rel="icon" href="images/cat.svg" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <style>
-      .clock {
-        position: fixed;
-        bottom: 7px; 
-        right: 10px;
-        background-color: #3daeff; 
-        border: 2px solid #1f007d; 
-        border-radius: 5px;
-        padding: 5px 10px;
-        font-size: 16px;
-        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-        z-index: 1000; 
-      }
-    </style>
   </head>
   <body>
     <main class="bg">
@@ -112,6 +97,15 @@
             onclick="openWebsite('https://webchef.dev/basedor')"
           />
           <span>Magic<br />8 Ball</span>
+        </div>
+
+        <div class="icon">
+          <img
+            src="images/bomb.svg"
+            alt="bomb"
+            onclick="openWebsite('https://webchef.dev/emojis.html')"
+          />
+          <span>Emoji<br />Sweep</span>
         </div>
 
         <div class="icon">
@@ -209,7 +203,9 @@
                 <a href="mailto:webchefdev@gmail.com">&#x1F48C; E-mail Me!</a>
               </li>
               <li>
-                <a href="https://webchef.dev/aboutme.html" target="_blank">&#128172; About Me</a>
+                <a href="https://webchef.dev/aboutme.html" target="_blank"
+                  >&#128172; About Me</a
+                >
               </li>
               <br />
               <li>
@@ -277,10 +273,12 @@
       // JavaScript to update the clock
       function updateClock() {
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+        document.getElementById(
+          "clock"
+        ).textContent = `${hours}:${minutes}:${seconds}`;
       }
 
       // Update the clock every second
