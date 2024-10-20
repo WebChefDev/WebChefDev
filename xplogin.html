@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Windows XP Login Recreation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #5090da;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .container {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Top blue band */
+      .top-band {
+        background-color: #024da4;
+        height: 13vh;
+        width: 100vw;
+        position: relative;
+      }
+
+      .top-band::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to right, transparent, white, transparent);
+        opacity: 0.8;
+      }
+
+      /* Main section with two equal columns */
+      .main-section {
+        flex: 1;
+        display: flex;
+      }
+
+      .column {
+        flex: 1;
+      }
+
+      .left-column {
+        flex: 1;
+        position: relative;
+      }
+
+      .left-column::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #ffffff,
+          transparent
+        );
+      }
+
+      /* Hide right border on mobile */
+      @media (max-width: 768px) {
+        .left-column {
+          border-right: none;
+        }
+      }
+
+      .right-column {
+        flex: 1;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        margin-left: 10px;
+        min-width: 500px;
+      }
+
+      .border-wrapper {
+        position: relative;
+        width: 200px;
+        height: 100px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .rectangle-wrapper {
+        position: relative;
+        width: 200px;
+        height: 100px;
+      }
+
+      .white-rectangle {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          #ffffff,
+          #f0f0f066,
+          #e0e0e000
+        ); /* Gradient with three stops */
+        border-radius: 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+      }
+
+      .blue-rectangle {
+        width: 380px;
+        height: 95%;
+        background: linear-gradient(to right, #004898, transparent);
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        border-radius: 5px;
+        z-index: 1;
+        display: flex;
+      }
+
+      .left-content {
+        flex: 1;
+        display: flex;
+        justify-content: left;
+        margin-left: 6px;
+        align-items: center;
+      }
+
+      .image {
+        width: 90%;
+        height: auto;
+        border-radius: 5px;
+      }
+
+      .right-content {
+        flex: 1;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        margin-right: 30%;
+      }
+
+      .title {
+        font-size: 1.2em;
+        margin-top: 5px;
+        margin-bottom: 15px;
+      }
+
+      .description {
+        font-size: 0.9em;
+        margin-bottom: 3px;
+      }
+
+      .input-wrapper {
+        display: flex;
+        margin-top: 5px;
+      }
+
+      .text-input {
+        height: 35px;
+        margin-bottom: 5px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        flex: 1;
+      }
+
+      .submit-button {
+        height: 30px;
+        padding: 3px 5px;
+        border-radius: 3px;
+        border: 2px solid white;
+        background-color: #00c331;
+        color: white;
+        cursor: pointer;
+        margin-left: 2px;
+      }
+
+      /* Bottom blue band */
+      .bottom-band {
+        background-color: #024da4;
+        height: 13vh;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        font-size: 12px;
+      }
+
+      .bottom-band::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to right, transparent, orange, transparent);
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top-band"></div>
+      <div class="main-section">
+        <div class="left-column column"></div>
+        <div class="right-column column">
+          <div class="rectangle-wrapper">
+            <div class="white-rectangle"></div>
+            <div class="blue-rectangle">
+              <div class="left-content">
+                <img src="duck.jpeg" alt="Description" class="image" />
+              </div>
+              <div class="right-content">
+                <h2 class="title">Duck</h2>
+                <p class="description">Type anything at all.</p>
+                <div class="input-wrapper">
+                  <input
+                    type="password"
+                    class="text-input"
+                    placeholder="Literally anything..."
+                  />
+                  <a href="http://webchef.dev">
+                    <button class="submit-button">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="white"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M12.14 8l-6.707-6.707a1 1 0 1 0-1.414 1.414L9.586 8H1a1 1 0 1 0 0 2h8.586l-5.566 5.293a1 1 0 0 0 1.414 1.414L12.14 8z"
+                        />
+                      </svg>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-band">
+        <p>After you login, you can play games and stuff.<br />It's chill.</p>
+      </div>
+    </div>
+  </body>
+</html>
