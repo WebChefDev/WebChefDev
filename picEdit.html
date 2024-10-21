@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Adjuster</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        overflow: auto;
+      }
+      .container {
+        background-color: #333;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .image-preview {
+        max-width: 100%;
+        max-height: 400px;
+      }
+
+      button {
+        background-color: hotpink;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: deeppink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Image Adjuster</h2>
+
+      <!-- Image Upload -->
+      <input type="file" id="upload" accept="image/*" />
+      <br />
+      <button id="download" style="margin-top: 10px">Download</button>
+      <br /><br />
+
+      <!-- Image Preview -->
+      <img
+        id="image"
+        class="image-preview"
+        src=""
+        alt="Your image will appear here"
+      />
+
+      <!-- Sliders for Adjustments -->
+      <div id="controls">
+        <label for="brightness">Brightness</label>
+        <input type="range" id="brightness" min="0" max="200" value="100" />
+        <br />
+        <label for="contrast">Contrast</label>
+        <input type="range" id="contrast" min="0" max="200" value="100" />
+        <br />
+        <label for="saturate">Saturation</label>
+        <input type="range" id="saturate" min="0" max="200" value="100" />
+        <br />
+        <label for="grayscale">Grayscale</label>
+        <input type="range" id="grayscale" min="0" max="100" value="0" />
+        <br />
+        <label for="blur">Blur</label>
+        <input type="range" id="blur" min="0" max="10" value="0" />
+        <br />
+        <label for="hue-rotate">Hue Rotate</label>
+        <input type="range" id="hue-rotate" min="0" max="360" value="0" />
+        <br />
+        <label for="invert">Invert</label>
+        <input type="range" id="invert" min="0" max="100" value="0" />
+        <br />
+        <label for="sepia">Sepia</label>
+        <input type="range" id="sepia" min="0" max="100" value="0" />
+        <br />
+        <label for="opacity">Opacity</label>
+        <input type="range" id="opacity" min="0" max="100" value="100" />
+        <br />
+      </div>
+    </div>
+
+    <script>
+      const img = document.getElementById("image");
+      const upload = document.getElementById("upload");
+
+      // Load the uploaded image
+      upload.addEventListener("change", function () {
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Adjust CSS filters based on slider values
+      const controls = document.querySelectorAll("#controls input");
+      controls.forEach((control) => {
+        control.addEventListener("input", adjustImage);
+      });
+
+      function adjustImage() {
+        const brightness = document.getElementById("brightness").value;
+        const contrast = document.getElementById("contrast").value;
+        const saturate = document.getElementById("saturate").value;
+        const grayscale = document.getElementById("grayscale").value;
+        const blur = document.getElementById("blur").value;
+        const hueRotate = document.getElementById("hue-rotate").value;
+        const invert = document.getElementById("invert").value;
+        const sepia = document.getElementById("sepia").value;
+        const opacity = document.getElementById("opacity").value;
+
+        // Apply CSS filter styles to the image
+        img.style.filter = `
+          brightness(${brightness}%)
+          contrast(${contrast}%)
+          saturate(${saturate}%)
+          grayscale(${grayscale}%)
+          blur(${blur}px)
+          hue-rotate(${hueRotate}deg)
+          invert(${invert}%)
+          sepia(${sepia}%)
+          opacity(${opacity}%)
+        `;
+      }
+
+      // Download the displayed image
+      document
+        .getElementById("download")
+        .addEventListener("click", function () {
+          const link = document.createElement("a");
+          link.href = img.src;
+          link.download = "your-super-cool-edited-pic.png";
+          link.click();
+        });
+    </script>
+  </body>
+</html>
