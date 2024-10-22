@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mock Control Panel</title>
+    <style>
+      body {
+        font-family: "Tahoma", sans-serif;
+        background-color: #0078d4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .window {
+        width: 600px;
+        border: 1px solid #000;
+        background-color: #f0f0f0;
+        padding: 10px;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .tab-link {
+        padding: 10px;
+        margin-right: 5px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        background-color: #e0e0e0;
+        color: #000;
+        outline: none;
+      }
+
+      .tab-link.active {
+        background-color: #fff;
+        border-top: 2px solid #0078d4;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .system-info {
+        margin-top: 10px;
+      }
+
+      .system-info p,
+      .system-info ul {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .system-info ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .system-info li {
+        padding-left: 15px;
+        text-indent: -10px;
+      }
+
+      .system-info li:before {
+        content: "•";
+        padding-right: 5px;
+        color: #000;
+      }
+
+      .system-buttons {
+        margin-top: 20px;
+      }
+
+      .system-buttons .btn {
+        padding: 5px 10px;
+        margin-right: 10px;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+
+      .system-buttons .btn:hover {
+        background-color: #d0d0d0;
+      }
+
+      .display-settings {
+        margin-top: 10px;
+      }
+
+      .display-settings p {
+        margin: 10px 0;
+      }
+
+      .resolution-slider {
+        display: flex;
+        align-items: center;
+      }
+
+      .resolution-slider label {
+        margin: 0 10px;
+      }
+
+      #resolution {
+        width: 150px;
+      }
+
+      .display-buttons {
+        margin-top: 20px;
+      }
+
+      .display-buttons .btn {
+        padding: 5px 10px;
+        margin-right: 10px;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+
+      .display-buttons .btn:hover {
+        background-color: #d0d0d0;
+      }
+
+      .programs-list {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .program {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .program-name {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .remove-btn {
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .remove-btn:hover {
+        background-color: #d0d0d0;
+      }
+
+      .network-list {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .network {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .network-name {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .connect-btn {
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .connect-btn:hover {
+        background-color: #d0d0d0;
+      }
+
+      .connect-btn.connected {
+        background-color: #90ee90; /* Light green for connected */
+        color: #000;
+      }
+
+      .connect-btn.disabled {
+        background-color: #e0e0e0;
+        cursor: not-allowed;
+      }
+
+      .user-list {
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #fff;
+      }
+
+      .user {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .user-name {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .user-type {
+        font-size: 12px;
+        color: #666;
+        margin-right: 10px;
+      }
+
+      .edit-btn {
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .edit-btn:hover {
+        background-color: #d0d0d0;
+      }
+
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 300px;
+      }
+
+      .account-options label {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.account-options input,
+.account-options select {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .save-btn,
+      .delete-btn {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+
+      .save-btn:hover,
+      .delete-btn:hover {
+        background-color: #d0d0d0;
+      }
+
+
+      .current-time {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.time-adjustment, .date-adjustment {
+    margin-bottom: 10px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input {
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.set-time-btn, .set-date-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.set-time-btn:hover, .set-date-btn:hover {
+    background-color: #d0d0d0;
+}
+
+.result-message {
+    margin-top: 20px;
+    font-size: 14px;
+    color: green;
+}
+    </style>
+
+  </head>
+
+  <body>
+    <div class="window">
+      <div class="tabs">
+        <button class="tab-link active" onclick="openTab(event, 'System')">
+          System Properties
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'Display')">
+          Display Settings
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'Programs')">
+          Add/Remove Programs
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'Network')">
+          Network Connections
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'Users')">
+          User Accounts
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'DateTime')">
+          Date and Time
+        </button>
+      </div>
+
+      <div id="System" class="tab-content active">
+        <h2>System Properties</h2>
+        <div class="system-info">
+          <p><strong>System:</strong> Webchef XP</p>
+          <p>
+            <strong>Version:</strong> 6.9 (Build 2600.xpsp_sp3_gdr.101420-1647 :
+            Service Pack 3)
+          </p>
+          <p><strong>Registered to:</strong> Sarah</p>
+          <p><strong>Computer:</strong></p>
+          <ul>
+            <li>
+              <strong>Processor:</strong> Intel(R) Pentium(R) 4 CPU 3.00GHz
+            </li>
+            <li><strong>Memory:</strong> 2.00 GB of RAM</li>
+            <li><strong>System Type:</strong> 32-bit Operating System</li>
+          </ul>
+        </div>
+        <div class="system-buttons">
+          <button class="btn">Device Manager</button>
+          <button class="btn">System Restore</button>
+          <button class="btn">Advanced Settings</button>
+        </div>
+      </div>
+
+      <div id="Display" class="tab-content">
+        <h2>Display Settings</h2>
+        <div class="display-settings">
+          <p><strong>Screen resolution:</strong></p>
+          <div class="resolution-slider">
+            <label for="resolution">Less &larr;</label>
+            <input
+              type="range"
+              id="resolution"
+              name="resolution"
+              min="800"
+              max="1600"
+              value="1024"
+              step="1"
+            />
+            <label for="resolution">&rarr; More</label>
+          </div>
+          <p><span id="resolution-value">1024</span> x 768 pixels</p>
+
+          <p><strong>Color quality:</strong></p>
+          <select id="color-quality">
+            <option value="16-bit">Medium (16-bit)</option>
+            <option value="32-bit" selected>Highest (32-bit)</option>
+          </select>
+
+          <p><strong>Theme:</strong></p>
+          <select id="theme">
+            <option value="xp" selected>Windows XP (Default)</option>
+            <option value="classic">Windows Classic</option>
+            <option value="bliss">Bliss</option>
+          </select>
+        </div>
+        <div class="display-buttons">
+          <button class="btn">Apply</button>
+          <button class="btn">OK</button>
+          <button class="btn">Cancel</button>
+        </div>
+      </div>
+
+      <div id="Programs" class="tab-content">
+        <h2>Add/Remove Programs</h2>
+        <div class="programs-list">
+          <div class="program">
+            <span class="program-name">Microsoft Office 2003</span>
+            <button class="remove-btn" onclick="removeProgram(this)">
+              Remove
+            </button>
+          </div>
+          <div class="program">
+            <span class="program-name">Adobe Photoshop 7.0</span>
+            <button class="remove-btn" onclick="removeProgram(this)">
+              Remove
+            </button>
+          </div>
+          <div class="program">
+            <span class="program-name">Winamp</span>
+            <button class="remove-btn" onclick="removeProgram(this)">
+              Remove
+            </button>
+          </div>
+          <div class="program">
+            <span class="program-name">Mozilla Firefox 2.0</span>
+            <button class="remove-btn" onclick="removeProgram(this)">
+              Remove
+            </button>
+          </div>
+          <div class="program">
+            <span class="program-name">Norton Antivirus 2005</span>
+            <button class="remove-btn" onclick="removeProgram(this)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="Network" class="tab-content">
+        <h2>Network Connections</h2>
+        <div class="network-list">
+          <div class="network">
+            <span class="network-name">Dial-Up Connection</span>
+            <button class="connect-btn" onclick="playDialUpSound()">
+              Connect
+            </button>
+          </div>
+
+          <div class="network">
+            <span class="network-name">Wireless Network Connection</span>
+            <button class="connect-btn">Not Connected</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="Users" class="tab-content">
+        <h2>User Accounts</h2>
+        <p>Select an account to modify its settings:</p>
+        <div class="user-list">
+          <!-- Duck User -->
+          <div class="user">
+            <span class="user-name">Duck</span>
+            <span class="user-type">Standard User</span>
+            <button class="edit-btn" onclick="editUser('Duck')">
+              Manage Account
+            </button>
+          </div>
+
+          <!-- Admin User -->
+          <div class="user">
+            <span class="user-name">Admin</span>
+            <span class="user-type">Administrator</span>
+            <button class="edit-btn" onclick="editUser('Admin')">
+              Manage Account
+            </button>
+          </div>
+        </div>
+
+        <!-- User Account Management Modal (for future functionality) -->
+        <div id="user-modal" class="modal" style="display: none">
+          <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Manage Account: <span id="modal-user-name"></span></h2>
+            <div class="account-options">
+              <label for="password">Change Password:</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter new password"
+              />
+
+              <label for="account-type">Account Type:</label>
+              <select id="account-type">
+                <option value="standard">Standard User</option>
+                <option value="admin">Administrator</option>
+              </select>
+
+              <button class="save-btn">Save Changes</button>
+              <button class="delete-btn">Delete Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="DateTime" class="tab-content">
+        <h2>Date and Time Settings</h2>
+        <div class="current-time">
+            <p>Current Time: <span id="current-time-display"></span></p>
+        </div>
+
+        <div class="time-adjustment">
+            <label for="new-time">Set New Time:</label>
+            <input type="time" id="new-time">
+            <button class="set-time-btn" onclick="setTime()">Set Time</button>
+        </div>
+
+        <div class="date-adjustment">
+            <label for="new-date">Set New Date:</label>
+            <input type="date" id="new-date">
+            <button class="set-date-btn" onclick="setDate()">Set Date</button>
+        </div>
+
+        <div class="result-message" id="result-message"></div>
+    </div>
+
+    <script>
+      function openTab(evt, tabName) {
+        var i, tabContent, tabLinks;
+
+        // Hide all tab contents
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) {
+          tabContent[i].style.display = "none";
+          tabContent[i].classList.remove("active");
+        }
+
+        // Remove the active class from all tab links
+        tabLinks = document.getElementsByClassName("tab-link");
+        for (i = 0; i < tabLinks.length; i++) {
+          tabLinks[i].classList.remove("active");
+        }
+
+        // Show the current tab and add active class to the clicked tab
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.classList.add("active");
+      }
+
+      // Show the first tab by default
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector(".tab-content").style.display = "block";
+      });
+
+      //Update screen resolution
+      document
+        .getElementById("resolution")
+        .addEventListener("input", function () {
+          const value = this.value;
+          document.getElementById("resolution-value").textContent = value;
+        });
+      //remove programs
+      function removeProgram(button) {
+        const program = button.parentElement;
+        program.style.display = "none";
+      }
+
+      //dail up sound
+      let isConnected = false; // Keep track of connection status
+
+      function playDialUpSound() {
+        const button = document.querySelector(".connect-btn");
+
+        if (!isConnected) {
+          // If not connected, play dial-up sound and connect
+          const dialUpSound = new Audio("dialup.mp3");
+          dialUpSound.play();
+
+          button.textContent = "Connecting...";
+          button.disabled = true; // Disable button during connection process
+
+          // Simulate connection after 20 seconds
+          setTimeout(() => {
+            button.textContent = "Connected";
+            button.style.backgroundColor = "#90EE90"; // Change to green when connected
+            button.disabled = false;
+            isConnected = true; // Mark as connected
+          }, 20000);
+        } else {
+          // If connected, allow user to "disconnect"
+          button.textContent = "Not Connected";
+          button.style.backgroundColor = ""; // Reset background color
+          isConnected = false; // Mark as disconnected
+        }
+      }
+
+      function editUser(userName) {
+        const modal = document.getElementById("user-modal");
+        modal.style.display = "block";
+
+        // Set user name in modal title
+        document.getElementById("modal-user-name").textContent = userName;
+
+        // Pre-fill account type based on the user
+        const accountTypeSelect = document.getElementById("account-type");
+        if (userName === "Admin") {
+          accountTypeSelect.value = "admin";
+        } else {
+          accountTypeSelect.value = "standard";
+        }
+
+        // Save changes event
+        document.querySelector(".save-btn").onclick = function () {
+          saveChanges(userName);
+        };
+
+        // Delete account event
+        document.querySelector(".delete-btn").onclick = function () {
+          deleteAccount(userName);
+        };
+      }
+
+      function closeModal() {
+        document.getElementById("user-modal").style.display = "none";
+      }
+
+      function saveChanges(userName) {
+        // Get the selected account type from the dropdown
+        const accountType = document.getElementById("account-type").value;
+
+        // Find the corresponding user in the user list and update account type
+        const userList = document.querySelectorAll(".user");
+        userList.forEach((user) => {
+          const name = user.querySelector(".user-name").textContent;
+          if (name === userName) {
+            user.querySelector(".user-type").textContent =
+              accountType === "admin" ? "Administrator" : "Standard User";
+          }
+        });
+
+        alert("Changes saved for " + userName + "!");
+        closeModal(); // Close the modal after saving
+      }
+
+      function deleteAccount(userName) {
+        if (userName === "Admin") {
+          alert("You cannot delete the Admin account!");
+          return;
+        }
+
+        // Find the corresponding user in the user list and remove the element
+        const userList = document.querySelectorAll(".user");
+        userList.forEach((user) => {
+          const name = user.querySelector(".user-name").textContent;
+          if (name === userName) {
+            user.remove(); // Remove the user from the list
+          }
+        });
+
+        alert(userName + " account deleted.");
+        closeModal(); // Close the modal after deleting
+      }
+
+      // Function to update the time display with the current time from the existing clock
+function updateCurrentTime() {
+    const clockElement = document.getElementById('existing-clock'); // Replace with your actual clock element's ID
+    const currentTimeDisplay = document.getElementById('current-time-display');
+
+    if (clockElement) {
+        currentTimeDisplay.textContent = clockElement.textContent; // Tap into the existing clock's time
+    }
+}
+
+// Call this function when the Date/Time tab is opened to show the current time
+document.getElementById('DateTime').addEventListener('click', updateCurrentTime);
+
+// Function to "set" a new time (purely visual)
+function setTime() {
+    const newTime = document.getElementById('new-time').value;
+    const resultMessage = document.getElementById('result-message');
+
+    if (newTime) {
+        resultMessage.textContent = 'Time set to: ' + newTime;
+    } else {
+        resultMessage.textContent = 'Please select a valid time.';
+    }
+}
+
+// Function to "set" a new date (purely visual)
+function setDate() {
+    const newDate = document.getElementById('new-date').value;
+    const resultMessage = document.getElementById('result-message');
+
+    if (newDate) {
+        resultMessage.textContent = 'Date set to: ' + newDate;
+    } else {
+        resultMessage.textContent = 'Please select a valid date.';
+    }
+}
+    </script>
+  </body>
+</html>
